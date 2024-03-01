@@ -1,0 +1,453 @@
+import java.util.*;
+import java.io.*;
+class Stock
+{
+    InputStreamReader isr=new InputStreamReader(System.in);
+    BufferedReader b=new BufferedReader(isr);
+    Scanner sc=new Scanner(System.in);
+    ArrayList<String> stn=new ArrayList<String>();
+    ArrayList<Integer> sta=new ArrayList<Integer>();
+    ArrayList<String> stcc=new ArrayList<String>();
+    int stc=3;
+    void common()
+    {
+        stn.add("A4 Paper");
+        stn.add("King size Note");
+        stn.add("Reynolds pen");
+        sta.add(5400);
+        sta.add(90);
+        sta.add(50);
+        stcc.add("Inserted by  -  Owner");
+        stcc.add("Inserted by  -  Owner");
+        stcc.add("Inserted by  -  Owner");
+    }
+    void addStock(String ns)throws IOException
+    {
+        int i;
+        System.out.print("How Many Stocks are you want add :\n");
+        int n=sc.nextInt();
+        for(i=1;i<=n;i++)
+        {
+            System.out.print("Enter Stock Name :\t");
+            stn.add(b.readLine());
+            System.out.print("Enter Stock Quantity :\t");
+            sta.add(sc.nextInt());
+            stcc.add("Inserted by  -  "+ns);
+        }
+        stc+=n;
+    }
+    void updateStock(String ns)throws IOException
+    {
+        int i;
+        boolean f=true;
+        while(f)
+        {
+            System.out.print("Enter Stock Name :\t");
+            String s=b.readLine();
+            System.out.print("Enter Stock Quantity :\t");
+            int num=sc.nextInt();
+            System.out.print("Enter Replacable Stock Name :\t");
+            String s1=b.readLine();
+            System.out.print("Enter Replacable Stock Quantity :\t");
+            int num1=sc.nextInt();
+            for(i=0;i<stc;i++)
+            {
+                if(s.equals(stn.get(i))&&num==sta.get(i))
+                {
+                    stn.set(i,s1);
+                    sta.set(i,num1);
+                    stcc.add("Updated by  -  "+ns);
+                    f=false;
+                    break;
+                }
+            }
+            if(!f)
+            {
+                System.out.println("Stock Updated Successfully");
+            }
+            else
+            {
+                System.out.println("Stock Invalid");
+            }
+        }
+    }
+   
+    void deleteStock()throws IOException
+    {
+        int i;
+        boolean f=true;
+        while(f)
+        {
+            System.out.print("Enter Stock Name :\t");
+            String s=b.readLine();
+            System.out.print("Enter Stock Quantity :\t");
+            int num=sc.nextInt();
+            for(i=0;i<stc;i++)
+            {
+                if(s.equals(stn.get(i))&&num==sta.get(i))
+                {
+                    stn.remove(i);
+                    sta.remove(i);
+                    stcc.remove(i);
+                    f=false;
+                    break;
+                }
+            }
+            if(!f)
+            {
+                stc--;
+                System.out.println("Stock Deleted Successfully");
+            }
+            else
+            {
+                System.out.println("Stock Invalid");
+            }
+        }
+    }
+    void viewStock()
+    {
+        int i;
+        System.out.println("*************************Report of Stock*************************");
+        //int n=sc.nextInt();
+        for(i=0;i<stc;i++)
+            System.out.println(stn.get(i)+" "+sta.get(i)+" "+stcc.get(i));
+    }
+}
+class Bill
+{
+    InputStreamReader isr=new InputStreamReader(System.in);
+    BufferedReader b=new BufferedReader(isr);
+    Scanner sc=new Scanner(System.in);
+    ArrayList<String> billno=new ArrayList<String>();
+    ArrayList<String> billown=new ArrayList<String>();
+    ArrayList<Float> billaum=new ArrayList<Float>();
+    ArrayList<Integer> billtaxp=new ArrayList<Integer>();
+    ArrayList<Float> billtax=new ArrayList<Float>();
+    ArrayList<String> billcash=new ArrayList<String>();
+    int bc=0;
+    void addBill(String ns)throws IOException
+    {
+        int i,bt;
+        float ba;
+        boolean f=false;
+        String bn,bo;
+        for(;!f;)
+        {
+            System.out.print("Bill No :");
+            Integer temp=new Integer(billno.size());
+            bn="100"+(temp.toString());
+            System.out.print(bn+"\n");
+            System.out.print("Enter Bill Owner :\n");
+            bo=b.readLine();
+            //Stock Input
+            System.out.print("Enter Bill Amount +/- :\n");
+            ba=sc.nextFloat();
+            System.out.print("Enter Tax Percentage in Number :\n");
+            bt=sc.nextInt();
+            f=true;
+            for(i=0;i<bc;i++)
+            {
+                if(billno.get(i).equals(bn))
+                {
+                    f=false;
+                    break;
+                }
+            }
+            if(f)
+            {
+                billno.add(bn);
+                billown.add(bo);
+                billaum.add((ba+(ba*bt/100)));
+                billtaxp.add(bt);
+                billtax.add(ba*bt/100);
+                billcash.add(ns);
+                bc++;
+                System.out.println("Bill added Successfully");
+            }
+            else
+            {
+                System.out.println("Invalid Bill Number");
+            }
+        }
+    }
+    void updateBill(String ns)throws IOException
+    {
+        int i,bt;
+        float ba;
+        boolean f=true;
+        String bn,bo;
+        for(;f;)
+        {
+            System.out.print("Enter Bill No :\n");
+            bn=b.readLine();
+            System.out.print("Enter Bill Owner :\n");
+            bo=b.readLine();
+            for(i=0;i<bc;i++)
+            {
+                if(billno.get(i).equals(bn)&&billown.get(i).equals(bo))
+                {
+                    System.out.print("Enter Replace Bill No :\n");
+                    String bn1=b.readLine();
+                    System.out.print("Enter Replace Owner :\n");
+                    String bo1=b.readLine();
+                    System.out.print("Enter Replace Bill Amount +/- :\n");
+                    float ba1=sc.nextFloat();
+                    System.out.print("Enter Replace Tax Percentage in Number :\n");
+                    int bt1=sc.nextInt();
+                    billno.set(i,bn1);
+                    billown.set(i,bo1);
+                    billaum.set(i,(ba1+(ba1*bt1/100)));
+                    billtax.set(i,ba1*bt1/100);
+                    billtaxp.set(i,bt1);
+                    billcash.set(i,ns);
+                    f=false;
+                    break;
+                }
+            }
+            if(!f)
+            {
+                System.out.println("Bill Updated Successfully");
+            }
+            else
+            {
+                System.out.println("Invalid Bill Number");
+            }
+        }
+    }
+    void deleteBill()throws IOException
+    {
+        int i,ba;
+        boolean f=false;
+        String bn,bo;
+        for(;!f;)
+        {
+            System.out.print("Enter Bill No :\n");
+            bn=b.readLine();
+            System.out.print("Enter Bill Owner :\n");
+            bo=b.readLine();
+            System.out.print("Enter Bill Amount +/- :\n");
+            ba=sc.nextInt();
+            f=true;
+            for(i=0;i<bc;i++)
+            {
+                if(billno.get(i).equals(bn)&&billown.get(i).equals(bo)&&billaum.get(i).equals(ba))
+                {
+                    billno.remove(i);
+                    billown.remove(i);
+                    billaum.remove(i);
+                    billtax.remove(i);
+                    billtaxp.remove(i);
+                    billcash.remove(i);
+                    f=false;
+                    break;
+                }
+            }
+            if(!f)
+            {
+                bc--;
+                System.out.println("Bill Deleted Successfully");
+            }
+            else
+            {
+                System.out.println("Invalid Bill Number");
+            }
+        }
+    }
+    void viewBill()
+    {
+        int i;
+        System.out.println("*************************Report of Bill*************************");
+        //int n=sc.nextInt();
+        for(i=0;i<bc;i++)
+            System.out.println(billno.get(i)+" "+billown.get(i)+" "+billaum.get(i)+" "+billtax.get(i)+"%  "+billcash.get(i));
+    }
+}
+class Cashier
+{
+    InputStreamReader isr=new InputStreamReader(System.in);
+    BufferedReader b=new BufferedReader(isr);
+    Scanner sc=new Scanner(System.in);
+    String Name,Password;
+    Bill bl;Stock stok;
+    Cashier(Bill bl,Stock stok)
+    {
+        this.stok=stok;
+        this.bl=bl;
+    }
+    void Details()throws IOException
+    {
+        System.out.print("Enter Your Name :\t");
+        Name=b.readLine();
+        System.out.print("Enter Your Password :\t");
+        Password=b.readLine();
+    }
+}
+class Owner
+{
+    InputStreamReader isr=new InputStreamReader(System.in);
+    BufferedReader b=new BufferedReader(isr);
+    Scanner sc=new Scanner(System.in);
+    Stock stk;Bill Bil;
+    int i=0;
+    Cashier ch[]=new Cashier[10];
+    Owner(Stock stk,Bill Bil)
+    {
+        this.stk=stk;
+        this.Bil=Bil;
+    }
+    void choice()throws IOException
+    {
+        boolean f=true;
+        while(f)
+        {
+            int j=0;
+            System.out.print("Enter Owner's Name :  ");
+            String n=b.readLine();
+            System.out.print("Enter Owner's Password : ");
+            String p=b.readLine();
+            if(p.equals("123")&&n.equals("vignesh"))
+                {
+                    System.out.println("*************Login Successfully*************");
+                    f=false;
+                    while(true)
+                    {
+                        System.out.println("1 for Report \t2 for Add Cashier\t3 for Exit \n");
+                        int cho=sc.nextInt();
+                        if(cho==1)
+                            Report();
+                        else if(cho==2)
+                        {
+                            ch[i]=new Cashier(Bil,stk);
+                            ch[i].Details();
+                            i++;
+                        }
+                        else if(cho==3)
+                            break;
+                    }
+                }
+            else
+                System.out.println("Invalid Password");
+        }
+    }
+    void check()throws IOException
+    {
+        boolean f=true;
+        while(f)
+        {
+            int j=0;
+            System.out.print("Enter Your Name :\t");
+            String n=b.readLine();
+            System.out.print("Enter Your Password :\t");
+            String p=b.readLine();
+            for(j=0;j<i;j++)
+            {
+                if(ch[j].Name.equals(n)&&ch[j].Password.equals(p))
+                {
+                    System.out.println("*************Login Successfully*************");
+                    f=false;
+                    break;
+                }
+            }
+            if(!f)
+            {
+                Login(j);
+            }
+        }
+    }
+    void Login(int j)throws IOException
+    {
+        while(true)
+        {
+            System.out.println("1 for Stock \t2 for Bill \t3 for Exit");
+            int cho=sc.nextInt();
+            if(cho==1)
+            {
+                while(true)
+                {
+                    stk.viewStock();
+                    System.out.println("1 for Stock add \t2 for Stock Update\t3 for Stock Delete\t4 for Exit");
+                    int c1=sc.nextInt();
+                    if(c1==1)
+                    {
+                        stk.addStock(ch[j].Name);
+                    }
+                    else if(c1==2)
+                    {
+                        stk.updateStock(ch[j].Name);
+                    }
+                    else if(c1==3)
+                    {
+                        stk.deleteStock();
+                    }
+                    else if(c1==4)
+                        break;
+                }
+            }
+            else if(cho==2)
+            {
+                while(true)
+                {
+                    Bil.viewBill();
+                    System.out.print("1 for Bill add \t2 for Bill Update\t3 for Bill Delete\t4 for Exit");
+                    int c1=sc.nextInt();
+                    if(c1==1)
+                    {
+                        Bil.addBill(ch[j].Name);
+                    }
+                    else if(c1==2)
+                    {
+                        Bil.updateBill(ch[j].Name);
+                    }
+                    else if(c1==3)
+                    {
+                        Bil.deleteBill();
+                    }
+                    else if(c1==4)
+                        break;
+                }
+            }
+            else if(cho==3)
+                break;
+        }
+    }
+    void Report()
+    {
+        stk.viewStock();
+        Bil.viewBill();
+    }
+}
+public class Main
+{
+public static void main(String[] args)throws IOException
+{
+   Scanner sc=new Scanner(System.in);
+int c;
+Bill bi=new Bill();
+Stock stk=new Stock();
+Owner Onr=new Owner(stk,bi);
+stk.common();
+System.out.println("****Welcome to Ak Stores****");
+while(true)
+{
+   System.out.println("1) Cashier \t 2) Owner\t 3) Exit");
+   c=sc.nextInt();
+   if(c==1)
+   {
+                if(Onr.i==0)
+                    System.out.println("First Create Admin");
+                else
+                {
+                    Onr.check();
+                }
+   }
+   else if(c==2)
+   {
+       Onr.choice();
+   }
+   else if(c==3)
+   {
+       break;
+   }
+}
+}
+}
